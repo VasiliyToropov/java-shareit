@@ -65,7 +65,6 @@ public class InMemoryUserRepository implements UserRepository {
     public User updateUser(UserDto user, Long id) {
 
         User deletedUser = getUserAndCheckId(id);
-
         User addedUser = new User();
 
         // Если на входе указано только имя
@@ -108,7 +107,6 @@ public class InMemoryUserRepository implements UserRepository {
 
     public User getUserAndCheckId(Long id) {
         Optional<User> user = users.stream().filter(u -> u.getId().equals(id)).findFirst();
-
         User foundedUser = user.orElse(null);
 
         if (foundedUser == null) {
