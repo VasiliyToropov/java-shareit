@@ -16,7 +16,6 @@ import java.util.Optional;
 @Qualifier("InMemoryUserRepository")
 @Slf4j
 public class InMemoryUserRepository implements UserRepository {
-
     private Long id = 0L;
     private final List<User> users = new ArrayList<>();
 
