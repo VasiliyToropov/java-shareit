@@ -82,7 +82,7 @@ public class InMemoryUserRepository implements UserRepository {
         }
 
         //Если на входе указано имя и почта
-        if (user.getName() != null & user.getEmail() != null) {
+        if (user.getName() != null && user.getEmail() != null) {
             addedUser.setId(deletedUser.getId());
             addedUser.setName(user.getName());
             addedUser.setEmail(user.getEmail());
