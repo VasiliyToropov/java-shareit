@@ -15,7 +15,7 @@ public class Booking {
     private User booker;
     private Status status;
 
-    public enum Status {
+    private enum Status {
         WAITING,
         APPROVED,
         REJECTED,

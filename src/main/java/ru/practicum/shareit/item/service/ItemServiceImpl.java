@@ -16,8 +16,8 @@ import java.util.List;
 @Service
 @Qualifier("ItemServiceImpl")
 public class ItemServiceImpl implements ItemService {
-    ItemRepository itemRepository;
-    UserRepository userRepository;
+    private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public ItemServiceImpl(@Qualifier("InMemoryItemRepository") ItemRepository itemRepository,
