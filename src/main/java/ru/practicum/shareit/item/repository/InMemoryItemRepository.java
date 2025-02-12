@@ -27,7 +27,6 @@ public class InMemoryItemRepository implements ItemRepository {
         addedItem.setName(itemDto.getName());
         addedItem.setDescription(itemDto.getDescription());
         addedItem.setOwner(user);
-        // На данном этапе пока null
         addedItem.setItemRequest(null);
         addedItem.setAvailable(itemDto.getAvailable());
 
