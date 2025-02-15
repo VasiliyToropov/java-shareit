@@ -14,5 +14,5 @@ public class Item {
     private String description;
     private User owner;
     private ItemRequest itemRequest;
-    private Boolean Available;
+    private Boolean available;
 }
