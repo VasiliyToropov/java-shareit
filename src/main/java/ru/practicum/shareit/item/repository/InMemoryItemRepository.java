@@ -31,7 +31,7 @@ public class InMemoryItemRepository implements ItemRepository {
 
         id++;
 
-        ItemDto addedItemDto = ItemMapper.toItemDto(addedItem);
+        ItemDto addedItemDto = ItemMapper.INSTANCE.toItemDto(addedItem);
 
         user.getItems().add(addedItemDto);
 
@@ -68,7 +68,7 @@ public class InMemoryItemRepository implements ItemRepository {
 
         log.info("Получили предмет с id: {}", itemId);
 
-        return ItemMapper.toItemDto(item);
+        return ItemMapper.INSTANCE.toItemDto(item);
     }
 
     @Override

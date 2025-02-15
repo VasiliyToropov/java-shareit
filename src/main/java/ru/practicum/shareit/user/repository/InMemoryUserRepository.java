@@ -30,7 +30,7 @@ public class InMemoryUserRepository implements UserRepository {
         List<UserDto> dtoUsers = new ArrayList<>();
 
         for (User user : users) {
-            dtoUsers.add(UserMapper.toUserDto(user));
+            dtoUsers.add(UserMapper.INSTANCE.toUserDto(user));
         }
 
         return dtoUsers;

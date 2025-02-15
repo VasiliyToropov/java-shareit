@@ -5,6 +5,7 @@ import lombok.Setter;
 import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
+
 @Getter
 @Setter
 public class Item {
@@ -13,5 +14,5 @@ public class Item {
     private String description;
     private User owner;
     private ItemRequest itemRequest;
-    private Boolean available;
+    private Boolean Available;
 }
