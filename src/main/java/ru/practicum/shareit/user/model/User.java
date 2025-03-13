@@ -1,17 +1,20 @@
 package ru.practicum.shareit.user.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import ru.practicum.shareit.item.dto.ItemDto;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
+@Entity
+@Table(name = "users")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     @NotNull
@@ -20,6 +23,4 @@ public class User {
     @NotNull
     @Email
     private String email;
-
-    private List<ItemDto> items = new ArrayList<>();
 }

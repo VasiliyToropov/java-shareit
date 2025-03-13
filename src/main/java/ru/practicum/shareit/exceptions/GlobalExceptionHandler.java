@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleFilmNotFound(final NotFoundException e) {
+    public Map<String, String> handleObjectNotFound(final NotFoundException e) {
         return Map.of("error", "Объект не найден");
     }
 
@@ -23,6 +23,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleFailedValidation(final ValidationException e) {
         return Map.of("error", "Произошла ошибка валидации");
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleBadRequest(final BadRequestException e) {
+        return Map.of("error", "Обнаружен неверный запрос");
     }
 }
 
