@@ -9,6 +9,7 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/items")
@@ -22,33 +23,33 @@ public class ItemController {
     }
 
     @PostMapping
-    public Item addItem(@RequestBody Item item, @RequestHeader(headerName) Long userId) {
-        return itemService.addItem(item, userId);
+    public Item addItem(@RequestBody Item item, @RequestHeader(headerName) Optional<Long> optionalUserId) {
+        return itemService.addItem(item, optionalUserId);
     }
 
     @PostMapping("/{itemId}/comment")
-    public Comment addComment(@RequestBody Comment comment, @RequestHeader(headerName) Long userId, @PathVariable Long itemId) {
-        return itemService.addComment(comment, userId, itemId);
+    public Comment addComment(@RequestBody Comment comment, @RequestHeader(headerName) Optional<Long> optionalUserId, @PathVariable Long itemId) {
+        return itemService.addComment(comment, optionalUserId, itemId);
     }
 
     @PatchMapping("/{itemId}")
-    public Item updateItem(@RequestBody Item item, @RequestHeader(headerName) Long userId, @PathVariable Long itemId) {
-        return itemService.updateItem(item, userId, itemId);
+    public Item updateItem(@RequestBody Item item, @RequestHeader(headerName) Optional<Long> optionalUserId, @PathVariable Long itemId) {
+        return itemService.updateItem(item, optionalUserId, itemId);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDtoWithTime getItem(@RequestHeader(headerName) Long userId, @PathVariable Long itemId) {
-        return itemService.getItemWithTimeAndComments(userId, itemId);
+    public ItemDtoWithTime getItem(@RequestHeader(headerName) Optional<Long> optionalUserId, @PathVariable Long itemId) {
+        return itemService.getItemWithTimeAndComments(optionalUserId, itemId);
     }
 
     @GetMapping
-    public List<ItemDto> getAllItemsByOwner(@RequestHeader(headerName) Long userId) {
-        return itemService.getAllItemsByOwner(userId);
+    public List<ItemDto> getAllItemsByOwner(@RequestHeader(headerName) Optional<Long> optionalUserId) {
+        return itemService.getAllItemsByOwner(optionalUserId);
     }
 
     @GetMapping("/search")
-    public List<ItemDto> searchItem(@RequestHeader(headerName) Long userId, @RequestParam("text") String text) {
-        return itemService.searchItems(userId, text);
+    public List<ItemDto> searchItem(@RequestHeader(headerName) Optional<Long> optionalUserId, @RequestParam("text") String text) {
+        return itemService.searchItems(optionalUserId, text);
     }
 
 

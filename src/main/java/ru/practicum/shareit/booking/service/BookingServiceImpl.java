@@ -20,6 +20,7 @@ import ru.practicum.shareit.user.service.UserService;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,10 +35,13 @@ public class BookingServiceImpl implements BookingService {
     private final UserService userService;
 
     @Override
-    public Booking addBooking(Booking booking, Long userId) {
+    public Booking addBooking(Booking booking, Optional<Long> optionalUserId) {
+
+        Long userId = optionalUserId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+
         Booking addedBooking = new Booking();
         User booker = userService.getUser(userId);
-        ItemDto itemDto = itemService.getItem(userId, booking.getItemId());
+        ItemDto itemDto = itemService.getItem(optionalUserId, booking.getItemId());
         Item item = ItemMapper.INSTANCE.toItem(itemDto);
 
         //Проверяем, что предмет доступен
@@ -60,8 +64,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking isApprovedBooking(Long bookingId, Boolean approved, Long userId) {
+    public Booking isApprovedBooking(Long bookingId, Boolean approved, Optional<Long> optionalUserId) {
         Booking updatedBooking = bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Бронирование с таким ID не найдено"));
+
+        Long userId = optionalUserId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
 
         Item item = updatedBooking.getItem();
 
@@ -92,7 +98,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingsByBooker(String state, Long bookerId) {
+    public List<BookingDto> getAllBookingsByBooker(String state, Optional<Long> optionalBookerId) {
+
+        Long bookerId = optionalBookerId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
 
         log.info("Получение списка бронирования для арендующего пользователя с учетом состояния бронирования");
 
@@ -115,7 +123,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingsByBooker(Long bookerId) {
+    public List<BookingDto> getAllBookingsByBooker(Optional<Long> optionalBookerId) {
+
+        Long bookerId = optionalBookerId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
 
         log.info("Получение списка бронирования для арендующего пользователя");
 
@@ -123,9 +133,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingsByOwner(Long ownerId) {
+    public List<BookingDto> getAllBookingsByOwner(Optional<Long> optionalOwnerId) {
+
         //Сначала надо найти вещи пользователя
-        List<Item> items = itemService.getAllItemsByOwnerId(ownerId);
+        List<Item> items = itemService.getAllItemsByOwnerId(optionalOwnerId);
 
         if (items.isEmpty()) {
             throw new NotFoundException("Для этого пользователя не найдены вещи");
@@ -148,12 +159,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingsByOwner(String state, Long ownerId) {
+    public List<BookingDto> getAllBookingsByOwner(String state, Optional<Long> optionalOwnerId) {
 
         Instant now = Instant.now();
 
         //Сначала надо найти вещи пользователя
-        List<Item> items = itemService.getAllItemsByOwnerId(ownerId);
+        List<Item> items = itemService.getAllItemsByOwnerId(optionalOwnerId);
 
         if (items.isEmpty()) {
             throw new ConflictException("Для этого пользователя не найдены вещи");

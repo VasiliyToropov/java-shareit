@@ -6,22 +6,23 @@ import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ItemService {
 
-    public Item addItem(Item item, Long userId);
+    public Item addItem(Item item, Optional<Long> optionalUserId);
 
-    public Item updateItem(Item item, Long userId, Long itemId);
+    public Item updateItem(Item item, Optional<Long> optionalUserId, Long itemId);
 
-    public ItemDto getItem(Long userId, Long itemId);
+    public ItemDto getItem(Optional<Long> optionalUserId, Long itemId);
 
-    public List<ItemDto> getAllItemsByOwner(Long userId);
+    public List<ItemDto> getAllItemsByOwner(Optional<Long> userId);
 
-    public List<ItemDto> searchItems(Long userId, String text);
+    public List<ItemDto> searchItems(Optional<Long> userId, String text);
 
-    public List<Item> getAllItemsByOwnerId(Long ownerId);
+    public List<Item> getAllItemsByOwnerId(Optional<Long> ownerId);
 
-    public Comment addComment(Comment comment, Long userId, Long itemId);
+    public Comment addComment(Comment comment, Optional<Long> userId, Long itemId);
 
-    public ItemDtoWithTime getItemWithTimeAndComments(Long userId, Long itemId);
+    public ItemDtoWithTime getItemWithTimeAndComments(Optional<Long> userId, Long itemId);
 }

@@ -45,7 +45,10 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item addItem(Item item, Long userId) {
+    public Item addItem(Item item, Optional<Long> optionalUserId) {
+
+        Long userId = optionalUserId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+
         User user = getUserById(userId);
 
         if (item.getName().isEmpty() || item.getAvailable() == null || item.getDescription().isEmpty()) {
@@ -60,7 +63,10 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item updateItem(Item item, Long userId, Long itemId) {
+    public Item updateItem(Item item, Optional<Long> optionalUserId, Long itemId) {
+
+        Long userId = optionalUserId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+
         User user = getUserById(userId);
         Item updatedItem = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Предмет с таким id найден"));
 
@@ -75,7 +81,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDtoWithTime getItemWithTimeAndComments(Long userId, Long itemId) {
+    public ItemDtoWithTime getItemWithTimeAndComments(Optional<Long> optionalUserId, Long itemId) {
+
+        Long userId = optionalUserId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
 
         List<Comment> comments = getComments(itemId);
 
@@ -120,7 +128,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto getItem(Long userId, Long itemId) {
+    public ItemDto getItem(Optional<Long> userId, Long itemId) {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Предмет с таким id найден"));
 
         log.info("Получили вещь с id: {}", itemId);
@@ -129,7 +137,10 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getAllItemsByOwner(Long userId) {
+    public List<ItemDto> getAllItemsByOwner(Optional<Long> optionalUserId) {
+
+        Long userId = optionalUserId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+
         List<Item> items = itemRepository.findAllByOwnerId(userId);
 
         log.info("Получили список вещей, принадлежащему пользователю с id: {}", userId);
@@ -138,7 +149,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> searchItems(Long userId, String text) {
+    public List<ItemDto> searchItems(Optional<Long> optionalUserId, String text) {
 
         List<ItemDto> foundedDtoItems = new ArrayList<>();
 
@@ -161,7 +172,9 @@ public class ItemServiceImpl implements ItemService {
 
     //Для BookingService требуется список предметов
     @Override
-    public List<Item> getAllItemsByOwnerId(Long ownerId) {
+    public List<Item> getAllItemsByOwnerId(Optional<Long> optionalOwnerId) {
+
+        Long ownerId = optionalOwnerId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
 
         log.info("Получен список вещей, принадлежащих пользователю с id: {}", ownerId);
 
@@ -169,13 +182,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Comment addComment(Comment comment, Long userId, Long itemId) {
+    public Comment addComment(Comment comment, Optional<Long> optionalUserId, Long itemId) {
 
-        Item item = ItemMapper.INSTANCE.toItem(getItem(userId, itemId));
+        Long userId = optionalUserId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+
+        Item item = ItemMapper.INSTANCE.toItem(getItem(optionalUserId, itemId));
         LocalDateTime localDateTime = LocalDateTime.now();
 
         //Проверяем, что пользователь брал вещь в аренду
-        List<BookingDto> bookings = bookingService.getAllBookingsByBooker(userId);
+        List<BookingDto> bookings = bookingService.getAllBookingsByBooker(optionalUserId);
 
         if (bookings.isEmpty()) {
             throw new NotFoundException("Пользователь не брал вещей в аренду");
