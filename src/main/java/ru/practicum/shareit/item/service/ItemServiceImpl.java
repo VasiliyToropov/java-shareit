@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.exceptions.BadRequestException;
 import ru.practicum.shareit.exceptions.ConflictException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -47,7 +48,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item addItem(Item item, Optional<Long> optionalUserId) {
 
-        Long userId = optionalUserId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+        Long userId = optionalUserId.orElseThrow(() -> new BadRequestException("Неверный запрос"));
 
         User user = getUserById(userId);
 
@@ -65,7 +66,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item updateItem(Item item, Optional<Long> optionalUserId, Long itemId) {
 
-        Long userId = optionalUserId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+        Long userId = optionalUserId.orElseThrow(() -> new BadRequestException("Неверный запрос"));
 
         User user = getUserById(userId);
         Item updatedItem = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Предмет с таким id найден"));
