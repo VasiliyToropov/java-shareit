@@ -15,7 +15,7 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
-    private final String headerName = "X-Sharer-User-Id";
+    private static final String headerName = "X-Sharer-User-Id";
 
     public ItemController(@Qualifier("ItemServiceImpl") ItemService itemService) {
         this.itemService = itemService;

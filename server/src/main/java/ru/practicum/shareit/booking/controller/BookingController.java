@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingController {
     private final BookingService bookingService;
-    private final String headerName = "X-Sharer-User-Id";
+    private static final String headerName = "X-Sharer-User-Id";
 
     @PostMapping
     public Booking addBooking(@RequestBody Booking booking, @RequestHeader(headerName) Long userId) {

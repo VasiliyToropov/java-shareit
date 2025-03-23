@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequestMapping("/items")
 public class ItemController {
     private final ItemClient itemClient;
-    private final String headerName = "X-Sharer-User-Id";
+    private static final String headerName = "X-Sharer-User-Id";
 
     @PostMapping
     public ResponseEntity<Object> addItem(@RequestBody @Valid ItemDto item, @RequestHeader(headerName) Optional<Long> optionalUserId) {

@@ -14,7 +14,7 @@ import java.util.List;
 public class ItemRequestController {
 
     private final ItemRequestService itemRequestService;
-    private final String headerName = "X-Sharer-User-Id";
+    private static final String headerName = "X-Sharer-User-Id";
 
     @PostMapping
     public ItemRequest addItemRequest(@RequestBody ItemRequest itemRequest, @RequestHeader(headerName) Long userId) {

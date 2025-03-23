@@ -19,7 +19,7 @@ import java.util.Optional;
 @Validated
 public class BookingController {
     private final BookingClient bookingClient;
-    private final String headerName = "X-Sharer-User-Id";
+    private static final String headerName = "X-Sharer-User-Id";
 
     @PostMapping
     public ResponseEntity<Object> addBooking(@RequestBody @Valid BookItemRequestDto booking, @RequestHeader(headerName) Optional<Long> optionalUserId) {
