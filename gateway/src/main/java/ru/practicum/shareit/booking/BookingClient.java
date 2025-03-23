@@ -39,6 +39,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> addBooking(BookItemRequestDto booking, Optional<Long> optionalUserId) {
+
         Long userId = optionalUserId.orElseThrow(() -> new NotFoundException("Пользователь не найден"));
 
         return post("", userId, booking);
